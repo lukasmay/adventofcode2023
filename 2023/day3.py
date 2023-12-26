@@ -84,10 +84,19 @@ def part2(input_file):
                 symbol_location.append([i, a])
 
     total = 0
+    count = []
     
+    for sym in symbol_location:
+        for num in number_location:
+            for loc in num.locations:
+                if abs(loc[0] - int(sym[0])) <= 1 and abs(loc[1] - int(sym[1])) <= 1:
+                    count.append(num)
+                    break
+        if len(count) == 2:
+            total += count[0].number * count[1].number
+        count = []
 
-
-    return None
+    return total
 
 def main():
     input_file = "/Users/lukasmay/git/adventofcode2023/Input/day3.txt"
