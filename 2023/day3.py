@@ -51,7 +51,6 @@ def get_symbol_locations(engine):
 
 def get_engine(input_file):
     with open(input_file) as file:
-        total = 0
         engine = []
         for line in file:
             engine.append(list(line))
@@ -64,6 +63,7 @@ def part1(input_file):
     
     end = False
     holder = []
+    total = 0
     for num in number_location:
         for loc in num.locations:
             for sym in symbol_location:
