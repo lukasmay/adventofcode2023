@@ -1,11 +1,12 @@
 class Card:
-    __slots__ = ["id", "score", "number"]
+    __slots__ = ["id", "score", "number", "amount"]
     
     def __init__(self, *args):
-        if len(args) == 3:
+        if len(args) == 4:
             self.id = args[0]
             self.score = args[1]
             self.number = args[2]
+            self.amount = args[3]
         else:
             win_cards, cards = args[0][args[0].find(":") +1:].split("|")
             win_cards = win_cards.strip().split(" ")
@@ -19,7 +20,8 @@ class Card:
 
             self.id = int(args[0][5:args[0].find(":")])
             self.score = pow(2,(count-1)) if count > 0 else 0
-            self.number = count
+            self.number = 1
+            self.amount = count
     
     def __repr__(self) -> str:
         return "Card: " + str(self.id) + " Score: " + str(self.score) + " Count: " + str(self.number)
@@ -46,19 +48,15 @@ def part2(input_file):
         total = 0
         cards = []
         for line in file:
-            win_cards, my_cards = line[line.find(":") +1:].split("|")
-            win_cards = win_cards.strip().split(" ")
-            my_cards = my_cards.strip().split(" ")
-            
-            count = 0
-            for card in my_cards:
-                if card == "":
-                    continue
-                elif card in win_cards:
-                    count += 1
-            cards.append(Card(line[5:line.find(":")], pow(2,(count-1)) if count > 0 else 0, count))
+            cards.append(Card(line))
         
-    return None
+        for z in range(len(cards)):
+            total += cards[z].number
+            for i in range(cards[z].number):
+                for a in range(1, cards[z].amount+1):
+                    cards[z+a].number += 1
+        
+    return total
 
 def main():
     input_file = "/Users/lukasmay/git/adventofcode2023/Input/day4.txt"
