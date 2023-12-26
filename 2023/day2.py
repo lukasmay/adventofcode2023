@@ -1,40 +1,4 @@
 
-class Round:
-    __slots__ = ["red", "green", "blue"]
-
-    def __init__(self):
-        self.red = 0
-        self.green = 0
-        self.blue = 0
-
-    def get_red(self):
-        return self.red
-    
-    def get_green(self):
-        return self.green
-    
-    def get_blue(self):
-        return self.blue
-
-    def add_red(self, n):
-        self.red += n
-
-    def add_blue(self, n):
-        self.blue += n
-
-    def add_green(self, n):
-        self.green += n
-
-    def get_total(self):
-        return self.red + self.green + self.blue
-    
-class Game:
-    __slots__ = ["rounds", "id"]
-
-    def __init__(self, id):
-        self.id = id
-        self.rounds = []
-
 def part1(input_file):
     total = 0
     with open(input_file) as file:
@@ -61,8 +25,28 @@ def part1(input_file):
 
 def part2(input_file):
     with open(input_file) as file:
-        pass
-    return None
+        total = 0
+        for line in file:
+            line = line[line.find(":") + 2:]
+            red = 0
+            green = 0
+            blue = 0
+            for round in line.split(";"):
+                round = round.strip()
+                for draw in round.split(","):
+                    draw = draw.strip()
+                    if draw[draw.find(" ")+1:] == "blue":
+                        if int(draw[:draw.find(" ")]) > blue:
+                            blue = int(draw[:draw.find(" ")])
+                    elif draw[draw.find(" ")+1:] == "green":
+                        if int(draw[:draw.find(" ")]) > green:
+                            green = int(draw[:draw.find(" ")])
+                    elif draw[draw.find(" ")+1:] == "red":
+                        if int(draw[:draw.find(" ")]) > red:
+                            red = int(draw[:draw.find(" ")])
+            total += red * blue * green
+
+    return total
 
 def main():
     input_file = "/Users/lukasmay/git/adventofcode2023/Input/day2.txt"
