@@ -40,15 +40,6 @@ def get_number_locations(engine):
                 location = []
     return number_location
 
-def get_symbol_locations(engine):
-    symbol_location = []
-    for i in range(len(engine)):
-        for a in range(len(engine[i])):
-            if not re.match("\d", engine[i][a]) and not "." == engine[i][a]:
-                if not engine[i][a] == "\n":
-                    symbol_location.append([i, a])
-    return symbol_location
-
 def get_engine(input_file):
     with open(input_file) as file:
         engine = []
@@ -58,11 +49,16 @@ def get_engine(input_file):
 
 def part1(input_file):
     engine = get_engine(input_file)
-    symbol_location = get_symbol_locations(engine)
     number_location = get_number_locations(engine)
+
+    symbol_location = []
+    for i in range(len(engine)):
+        for a in range(len(engine[i])):
+            if not re.match("\d", engine[i][a]) and not "." == engine[i][a]:
+                if not engine[i][a] == "\n":
+                    symbol_location.append([i, a])
     
     end = False
-    holder = []
     total = 0
     for num in number_location:
         for loc in num.locations:
@@ -70,7 +66,6 @@ def part1(input_file):
                 if abs(loc[0] - int(sym[0])) <= 1 and abs(loc[1] - int(sym[1])) <= 1:
                     total += num.number
                     end = True
-                    holder.append(num)
                     break
             if end:
                 end = False
@@ -79,8 +74,19 @@ def part1(input_file):
     return total
 
 def part2(input_file):
-    with open(input_file) as file:
-        pass
+    engine = get_engine(input_file)
+    number_location = get_number_locations(engine)
+
+    symbol_location = []
+    for i in range(len(engine)):
+        for a in range(len(engine[i])):
+            if engine[i][a] == "*":
+                symbol_location.append([i, a])
+
+    total = 0
+    
+
+
     return None
 
 def main():
