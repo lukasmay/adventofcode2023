@@ -22,20 +22,7 @@ class Part:
     def __lt__(self, object):
         return self.number < object.number
 
-def part1(input_file):
-    with open(input_file) as file:
-        total = 0
-        engine = []
-        for line in file:
-            engine.append(list(line))
-
-    symbol_location = []
-    for i in range(len(engine)):
-        for a in range(len(engine[i])):
-            if not re.match("\d", engine[i][a]) and not "." == engine[i][a]:
-                if not engine[i][a] == "\n":
-                    symbol_location.append([i, a])
-
+def get_number_locations(engine):
     number_location = []
     for i in range(len(engine)):
         number = ""
@@ -51,6 +38,30 @@ def part1(input_file):
                     number_location.append(Part(int(number), location))
                 number = ""
                 location = []
+    return number_location
+
+def get_symbol_locations(engine):
+    symbol_location = []
+    for i in range(len(engine)):
+        for a in range(len(engine[i])):
+            if not re.match("\d", engine[i][a]) and not "." == engine[i][a]:
+                if not engine[i][a] == "\n":
+                    symbol_location.append([i, a])
+    return symbol_location
+
+def get_engine(input_file):
+    with open(input_file) as file:
+        total = 0
+        engine = []
+        for line in file:
+            engine.append(list(line))
+    return engine
+
+def part1(input_file):
+    engine = get_engine(input_file)
+    symbol_location = get_symbol_locations(engine)
+    number_location = get_number_locations(engine)
+    
     end = False
     holder = []
     for num in number_location:
